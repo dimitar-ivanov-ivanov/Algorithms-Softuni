@@ -1,68 +1,72 @@
-#include <iostream>
+#include<bits/stdc++.h>
+#define N 8
 
-using namespace std;
+void printSolution(int board[N][N]) {
+    static int k = 1;
+    printf("%d-\n",k++);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++)
+            printf(" %d ", board[i][j]);
+        printf("\n");
+    }
+    printf("\n");
+}
 
-#define ROWS 8
-#define COLS 8
+bool isSafe(int board[N][N], int row, int col) {
+    int i, j;
 
-void generateEightQueensPuzzle(int matrix[ROWS][COLS]) {
-    for(int i = 0; i < ROWS; i++) {
-        for(int j = 0; i < COLS; i++) {
-            if(matrix[i][j] == 0) {
-                matrix[i][j] = 1;
+    /* Check this row on left side */
+    for (i = 0; i < col; i++)
+        if (board[row][i])
+            return false;
 
-                //mark horizontal
-                for(int k = 0; k < COLS; k++) {
-                    matrix[i][k] = 1;
-                }
+    /* Check upper diagonal on left side */
+    for (i=row, j=col; i>=0 && j>=0; i--, j--)
+        if (board[i][j])
+            return false;
 
-                //mark vertical
-                for(int k = 0; k < ROWS; k++) {
-                    matrix[k][j] =1;
-                }
+    /* Check lower diagonal on left side */
+    for (i=row, j=col; j>=0 && i<N; i++, j--)
+        if (board[i][j])
+            return false;
 
-                //mark diagonals
-                for(int k = 0; k < ROWS; k++) {
-                    if(i + k < ROWS  && j + k < COLS) {
-                        matrix[i+k][j+k] = 1;
-                    }
-                    if(i + k < ROWS  && j - k >= 0) {
-                        matrix[i+k][j-k] = 1;
-                    }
-                    if(i - k >=0 && j + k < COLS) {
-                        matrix[i-k][j+k] = 1;
-                    }
-                    if(i - k >=0 && j - k >=0) {
-                        matrix[i-k][j-k] = 1;
-                    }
-                }
-                generateEightQueensPuzzle(matrix);
-            }
+    return true;
+}
+
+bool solveNQUtil(int board[N][N], int col) {
+    if (col == N) {
+        printSolution(board);
+        return true;
+    }
+
+    bool res = false;
+    for (int i = 0; i < N; i++) {
+
+        if ( isSafe(board, i, col) ) {
+            board[i][col] = 1;
+
+            res = solveNQUtil(board, col + 1) || res;
+
+            board[i][col] = 0; // BACKTRACK
         }
     }
 
-    //no more free spaces
-    for(int i = 0; i < ROWS; i++) {
-        for(int j = 0; j < COLS; j++) {
-            cout << matrix[i][j
-            ];
-        }
-        cout << "\n";
+    return res;
+}
+
+void solveNQ() {
+    int board[N][N];
+    memset(board, 0, sizeof(board));
+
+    if (solveNQUtil(board, 0) == false) {
+        printf("Solution does not exist");
+        return ;
     }
-    //end program
+
+    return ;
 }
 
 int main() {
-    int i,j;
-    int matrix[ROWS][COLS];
-
-    for(i = 0; i < ROWS; i++) {
-        for(j = 0; j < COLS; j++) {
-            matrix[i][j] = 0;
-        }
-    }
-
-
-    cout << "Hello world!" << endl;
+    solveNQ();
     return 0;
 }

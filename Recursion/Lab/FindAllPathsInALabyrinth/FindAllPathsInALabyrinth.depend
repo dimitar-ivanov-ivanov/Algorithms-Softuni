@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1616088577 source:d:\programming\algorithms\homework\second homework\findallpathsinalabyrinth\main.cpp
+	<iostream>
+
+1616089621 source:d:\programming\algorithms\softuni\recursion\lab\findallpathsinalabyrinth\main.cpp
+	<iostream>
+	<vector>
+
