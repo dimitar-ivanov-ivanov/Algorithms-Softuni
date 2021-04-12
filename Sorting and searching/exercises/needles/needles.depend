@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1618230299 source:d:\programming\algorithms\softuni\sorting and searching\lab\needles\main.cpp
+	<iostream>
+	<vector>
+
